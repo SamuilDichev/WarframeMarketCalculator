@@ -1,0 +1,61 @@
+@(title: String, items: List[Item])
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>@title</title>
+        <script type="text/javascript" src="@routes.Assets.at("js/sorttable.js")"></script>
+    </head>
+    <body>
+        <h1>@title</h1>
+        <style>
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 4px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+        </style>
+
+        <table class="sortable">
+            <tr>
+                <th>Name</th>
+                <th>Count</th>
+                <th>DPP</th>
+                <th>Return Ratio</th>
+                <th>Platinum</th>
+                <th>Ducats</th>
+                <th>Seller</th>
+                <th>Ingame</th>
+            </tr>
+
+            @for(item <- items) {
+                <tr>
+                    <th style="font-weight: 200;">@item.getName</th>
+                    <th style="font-weight: 200;">@if(item.getSeller != null) {
+                        @item.getSeller.getCount
+                    }</th>
+                    <th style="font-weight: 200;">@item.getDPP</th>
+                    <th style="font-weight: 200;">@item.getReturnRatio</th>
+                    <th style="font-weight: 200;">@item.getPlatinum</th>
+                    <th style="font-weight: 200;">@item.getDucats</th>
+                    <th style="font-weight: 200;">@if(item.getSeller != null) {
+                        @item.getSeller.getIngame_name
+                    }</th>
+                    <th style="font-weight: 200;">@if(item.getSeller != null) {
+                        @item.getSeller.isOnline_ingame
+                    }</th>
+                </tr>
+            }
+        </table>
+    </body>
+</html>
