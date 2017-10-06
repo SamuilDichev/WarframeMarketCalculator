@@ -26,7 +26,7 @@ public class TradingCalculator {
   public static List<Item> calculate(List<Item> items) {
     long start = System.currentTimeMillis();
 
-    ExecutorService executor = Executors.newFixedThreadPool(5);
+    ExecutorService executor = Executors.newFixedThreadPool(3);
     for (Item item : items) {
       executor.submit(() -> {
         List<Seller> ingameSellers = searchMarket(item.getName());
@@ -47,7 +47,7 @@ public class TradingCalculator {
       LOGGER.error("Executor failure: {}", e.getMessage());
     }
 
-    System.out.println("Finished in " + (System.currentTimeMillis() - start) / 1000 + " seconds.");
+    LOGGER.info("Finished in {}", (System.currentTimeMillis() - start) / 1000 + " seconds.");
 
     return items;
   }
@@ -64,10 +64,13 @@ public class TradingCalculator {
 
   public static List<Seller> searchMarket(String item) {
     String url = String.format(API, BP_ROUTE, item.replaceAll(" ", "%20"));
-//    System.out.println(url);
 
     try {
       HttpResponse<String> response = Unirest.get(url).asString();
+      if (response.getStatus() != 200) {
+        LOGGER.error("{} responded with {}: {}", item, response.getStatus(), response.getStatusText());
+        return new ArrayList<>();
+      }
       return JsonHelper.fromJson(response.getBody(), new TypeReference<ApiResult>() {
 
       }).getResponse().getIngameSellers();
