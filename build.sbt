@@ -13,7 +13,6 @@ libraryDependencies ++= Seq(
   "junit" % "junit" % "4.12",
   "com.mashape.unirest" % "unirest-java" % "1.4.9",
   "org.mongodb.morphia" % "morphia" % "1.3.1",
-  "de.flapdoodle.embed" % "de.flapdoodle.embed.mongo" % "2.0.0",
   "org.jongo" % "jongo" % "1.3.0",
   "org.jsoup" % "jsoup" % "1.10.3"
 )
